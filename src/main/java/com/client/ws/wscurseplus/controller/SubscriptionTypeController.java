@@ -1,14 +1,13 @@
 package com.client.ws.wscurseplus.controller;
 
+import com.client.ws.wscurseplus.dto.SubscriptionTypeDto;
+import com.client.ws.wscurseplus.exception.NotFoundException;
 import com.client.ws.wscurseplus.model.SubscriptionType;
-import com.client.ws.wscurseplus.repository.SubscriptionTypeRepository;
 import com.client.ws.wscurseplus.service.SubscriptionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +21,26 @@ public class SubscriptionTypeController {
     @GetMapping()
     public ResponseEntity<List<SubscriptionType>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(subscriptionTypeService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SubscriptionType> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(subscriptionTypeService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<SubscriptionType> create(@RequestBody SubscriptionTypeDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionTypeService.create(dto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SubscriptionType> update(@PathVariable("id") Long id, @RequestBody SubscriptionTypeDto dto) {
+        return  ResponseEntity.status(HttpStatus.OK).body(subscriptionTypeService.update(id, dto));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        subscriptionTypeService.delete(id);
+        return  ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
