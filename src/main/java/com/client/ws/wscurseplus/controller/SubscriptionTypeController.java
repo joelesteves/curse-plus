@@ -1,9 +1,9 @@
 package com.client.ws.wscurseplus.controller;
 
 import com.client.ws.wscurseplus.dto.SubscriptionTypeDto;
-import com.client.ws.wscurseplus.exception.NotFoundException;
 import com.client.ws.wscurseplus.model.SubscriptionType;
 import com.client.ws.wscurseplus.service.SubscriptionTypeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class SubscriptionTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<SubscriptionType> create(@RequestBody SubscriptionTypeDto dto) {
+    public ResponseEntity<SubscriptionType> create(@Valid @RequestBody SubscriptionTypeDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionTypeService.create(dto));
     }
 
