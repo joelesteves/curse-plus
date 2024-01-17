@@ -3,6 +3,7 @@ package com.client.ws.wscurseplus.service.impl;
 import com.client.ws.wscurseplus.dto.SubscriptionTypeDto;
 import com.client.ws.wscurseplus.exception.BadRequestException;
 import com.client.ws.wscurseplus.exception.NotFoundException;
+import com.client.ws.wscurseplus.mapper.SubscriptionTypeMapper;
 import com.client.ws.wscurseplus.model.SubscriptionType;
 import com.client.ws.wscurseplus.repository.SubscriptionTypeRepository;
 import com.client.ws.wscurseplus.service.SubscriptionTypeService;
@@ -36,26 +37,14 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
         if (Objects.nonNull(dto.getId())) {
             throw new BadRequestException("id must be null");
         }
-        return subscriptionTypeRepository.save(SubscriptionType.builder()
-                        .id(dto.getId())
-                        .name(dto.getName())
-                        .accessMonth(dto.getAccessMonth())
-                        .price(dto.getPrice())
-                        .productKey(dto.getProductKey())
-                .build());
+        return subscriptionTypeRepository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
     }
 
     @Override
     public SubscriptionType update(Long id, SubscriptionTypeDto dto) {
         getSubscriptionType(id);
-
-        return subscriptionTypeRepository.save(SubscriptionType.builder()
-                        .id(id)
-                        .name(dto.getName())
-                        .accessMonth(dto.getAccessMonth())
-                        .price(dto.getPrice())
-                        .productKey(dto.getProductKey())
-                        .build());
+        dto.setId(id);
+        return subscriptionTypeRepository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
     }
 
     @Override
